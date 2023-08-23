@@ -19,8 +19,8 @@ public abstract class Plant extends Organism
     private final long serialNumber = amount++;
 
     public synchronized void tryReproduce() {
-        Organism organism = this.reproduce();
-        Optional<List<Organism>> thisOrganismList = Optional.ofNullable(this.getCell().getResidents().get(this.getClass()));
-        thisOrganismList.ifPresent(organisms -> organisms.add(organism));
+            Organism organism = this.reproduce();
+            List<Organism> thisOrganismList = this.getCell().getResidents().get(this.getClass());
+            thisOrganismList.add(organism);
     }
 }

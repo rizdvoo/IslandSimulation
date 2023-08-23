@@ -31,16 +31,13 @@ public class Engine {
         }
     }
     private void performPlantActions() {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
         TaskForPlant taskForPlant = new TaskForPlant(field);
-        executorService.execute(taskForPlant);
-        executorService.close();
+        Thread thread = new Thread(taskForPlant);
+        thread.start();
     }
     private void performAnimalActions() {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
         TaskForAnimal taskForAnimal = new TaskForAnimal(field);
-        executorService.execute(taskForAnimal);
-        executorService.close();
+        taskForAnimal.run();
     }
     private void updateFieldState() {
         for (Cell[] cellRow : field.getCells()) {

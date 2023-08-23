@@ -5,11 +5,10 @@ import org.example.Map.Field;
 import org.example.Organism.Animal.Animal;
 import org.example.Organism.Organism;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class TaskForAnimal implements Runnable {
+public class TaskForAnimal {
     private final Field field;
     private final Random random = new Random();
 
@@ -17,7 +16,6 @@ public class TaskForAnimal implements Runnable {
         this.field = field;
     }
 
-    @Override
     public void run() {
         for (Cell[] cellRow : field.getCells()) {
             for (Cell cell : cellRow) {

@@ -17,7 +17,7 @@ public class Manager
     public void start()
     {
         Field field = fieldFactory.create();
-        Engine engine = new Engine(field, 15);
+        Engine engine = new Engine(field, 1);
         engine.run();
     }
 }
