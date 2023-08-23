@@ -34,8 +34,10 @@ public abstract class Predator extends Animal
         Integer chance = getChanceEat(victimClass);
         int randomNumber = random.nextInt(chance) + 1;
 
-        if (randomNumber <= chance) {
-            while (isHunger() && eatVictim(victimClass) instanceof Herbivorous victim) {
+        if (randomNumber <= chance)
+        {
+            while (isHunger() && eatVictim(victimClass) instanceof Herbivorous victim)
+            {
                 restoreHealth(victim.getWeight());
             }
         }
@@ -43,7 +45,8 @@ public abstract class Predator extends Animal
     private Organism eatVictim(Class<? extends Herbivorous> victimClass)
     {
         List<Organism> residents = this.getCell().getResidents().get(victimClass);
-        if (!residents.isEmpty()) {
+        if (!residents.isEmpty())
+        {
             int randomIndex = random.nextInt(residents.size());
             Organism victim = residents.get(randomIndex);
             victim.setDead(true);
@@ -51,7 +54,8 @@ public abstract class Predator extends Animal
         }
         else return new NonOrganism();
     }
-    private Class<? extends Herbivorous> getRandomVictimClass() {
+    private Class<? extends Herbivorous> getRandomVictimClass()
+    {
         return victimClasses.get(random.nextInt(victimClasses.size()));
     }
 }

@@ -14,74 +14,114 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Engine {
+public class Engine
+{
     private final Field field;
     private final int simulationSteps;
 
-    public Engine(Field field, int simulationSteps) {
+    public Engine(Field field, int simulationSteps)
+    {
         this.field = field;
         this.simulationSteps = simulationSteps;
     }
-    public void run() {
-        for (int step = 0; step < simulationSteps; step++) {
+    public void run()
+    {
+        for (int step = 0; step < simulationSteps; step++)
+        {
             performPlantActions();
             performAnimalActions();
             updateFieldState();
             printSimulationStatistics(step);
         }
     }
-    private void performPlantActions() {
+    private void performPlantActions()
+    {
         TaskForPlant taskForPlant = new TaskForPlant(field);
         Thread thread = new Thread(taskForPlant);
         thread.start();
     }
-    private void performAnimalActions() {
+    private void performAnimalActions()
+    {
         TaskForAnimal taskForAnimal = new TaskForAnimal(field);
         taskForAnimal.run();
     }
-    private void updateFieldState() {
-        for (Cell[] cellRow : field.getCells()) {
-            for (Cell cell : cellRow) {
+    private void updateFieldState()
+    {
+        for (Cell[] cellRow : field.getCells())
+        {
+            for (Cell cell : cellRow)
+            {
                 updateCellState(cell);
             }
         }
     }
-    private void updateCellState(Cell cell) {
+    private void updateCellState(Cell cell)
+    {
         Map<Class<? extends Organism>, List<Organism>> residents = cell.getResidents();
-        for (List<Organism> organisms : residents.values()) {
-            organisms.removeIf(Organism::isDead);
+        for (List<Organism> organisms : residents.values())
+        {
+            checkIsDead(organisms);
             checkHealth(organisms);
         }
     }
-    private void checkHealth(List<Organism> organisms) {
+    private void checkHealth(List<Organism> organisms)
+    {
         Iterator<Organism> iterator = organisms.iterator();
-        while (iterator.hasNext()) {
+        while (iterator.hasNext())
+        {
             Organism organism = iterator.next();
-            if (organism instanceof Animal animal) {
-                if (animal.isHealthNull()) {
+            if (organism instanceof Animal animal)
+            {
+                if (animal.isHealthNull())
+                {
+                    iterator.remove();
+                }
+            }
+        }
+    }
+    private void checkIsDead(List<Organism> organisms)
+    {
+        Iterator<Organism> iterator = organisms.iterator();
+        while (iterator.hasNext())
+        {
+            Organism organism = iterator.next();
+            if (organism instanceof Animal animal)
+            {
+                if (animal.isDead())
+                {
                     iterator.remove();
                 }
             }
         }
     }
 
-    private void printSimulationStatistics(int step) {
+    private void printSimulationStatistics(int step)
+    {
         System.out.println("Simulation step: " + step);
         int totalOrganisms = 0;
         int totalPlants = 0;
         int totalHerbivores = 0;
         int totalPredators = 0;
 
-        for (Cell[] cellRow : field.getCells()) {
-            for (Cell cell : cellRow) {
-                for (List<Organism> organisms : cell.getResidents().values()) {
-                    for (Organism organism : organisms) {
+        for (Cell[] cellRow : field.getCells())
+        {
+            for (Cell cell : cellRow)
+            {
+                for (List<Organism> organisms : cell.getResidents().values())
+                {
+                    for (Organism organism : organisms)
+                    {
                         totalOrganisms++;
-                        if (organism instanceof Plant) {
+                        if (organism instanceof Plant)
+                        {
                             totalPlants++;
-                        } else if (organism instanceof Herbivorous) {
+                        }
+                        else if (organism instanceof Herbivorous)
+                        {
                             totalHerbivores++;
-                        } else if (organism instanceof Predator) {
+                        }
+                        else if (organism instanceof Predator)
+                        {
                             totalPredators++;
                         }
                     }

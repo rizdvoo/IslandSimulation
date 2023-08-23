@@ -29,20 +29,25 @@ public abstract class Animal extends Organism implements Movable
     protected static final Reflections reflections = new Reflections("org.example");
 
     public abstract void findFood();
-    public void tryReproduce() {
-        if (thisAnimalSizeList() >= 2) {
+    public void tryReproduce()
+    {
+        if (thisAnimalSizeList() >= 2)
+        {
             Organism organism = this.reproduce();
             List<Organism> thisOrganismList = this.getCell().getResidents().get(this.getClass());
-            if (thisOrganismList != null) {
+            if (thisOrganismList != null)
+            {
                 thisOrganismList.add(organism);
             }
         }
     }
-    public synchronized void move() {
+    public void move()
+    {
         Cell currentCell = this.getCell();
         List<Cell> neighborCells = new ArrayList<>(currentCell.getNeighboursCells());
 
-        if (!neighborCells.isEmpty()) {
+        if (!neighborCells.isEmpty())
+        {
             Cell nextCell = neighborCells.stream().findAny().orElse(null);
 
             Map<Class<? extends Organism>, List<Organism>> currentCellResidentsCopy = new HashMap<>(currentCell.getResidents());
@@ -50,7 +55,8 @@ public abstract class Animal extends Organism implements Movable
 
             List<Organism> thisOrganismList = currentCellResidentsCopy.get(this.getClass());
 
-            if (thisOrganismList != null && thisOrganismList.contains(this)) {
+            if (thisOrganismList != null && thisOrganismList.contains(this))
+            {
                 thisOrganismList = new ArrayList<>(thisOrganismList);
                 thisOrganismList.remove(this);
 
@@ -58,12 +64,14 @@ public abstract class Animal extends Organism implements Movable
                 nextCellOrganismList = new ArrayList<>(nextCellOrganismList);
                 nextCellOrganismList.add(this);
 
-                synchronized (currentCell) {
+                synchronized (currentCell)
+                {
                     currentCellResidentsCopy.put(this.getClass(), thisOrganismList);
                     currentCell.setResidents(currentCellResidentsCopy);
                 }
 
-                synchronized (nextCell) {
+                synchronized (nextCell)
+                {
                     nextCellResidentsCopy.put(this.getClass(), nextCellOrganismList);
                     nextCell.setResidents(nextCellResidentsCopy);
                 }

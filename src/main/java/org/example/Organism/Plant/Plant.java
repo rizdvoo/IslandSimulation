@@ -18,7 +18,7 @@ public abstract class Plant extends Organism
     @Builder.Default
     private final long serialNumber = amount++;
 
-    public synchronized void tryReproduce() {
+    public void tryReproduce() {
             Organism organism = this.reproduce();
             List<Organism> thisOrganismList = this.getCell().getResidents().get(this.getClass());
             thisOrganismList.add(organism);

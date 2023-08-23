@@ -25,33 +25,40 @@ import java.util.logging.Logger;
 @SuperBuilder
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public abstract class Herbivorous extends Animal {
+public abstract class Herbivorous extends Animal
+{
 
     private final Random random = new Random();
     private static List<Class<? extends Plant>> plantsClasses = new ArrayList<>(reflections.getSubTypesOf(Plant.class));
 
     @Override
-    public void findFood() {
+    public void findFood()
+    {
         Class<? extends Plant> plantClass = getRandomPlantClass();
         Integer chance = getChanceEat(plantClass);
         int randomNumber = random.nextInt(chance) + 1;
 
-        if (randomNumber <= chance) {
-            while (isHunger() && eatPlant(plantClass) instanceof Plant plant) {
+        if (randomNumber <= chance)
+        {
+            while (isHunger() && eatPlant(plantClass) instanceof Plant plant)
+            {
                 restoreHealth(plant.getWeight());
             }
         }
     }
-    private Organism eatPlant(Class<? extends Plant> plantClass) {
+    private Organism eatPlant(Class<? extends Plant> plantClass)
+    {
         List<Organism> residents = this.getCell().getResidents().get(plantClass);
-        if (!residents.isEmpty()) {
+        if (!residents.isEmpty())
+        {
             int randomIndex = random.nextInt(residents.size());
             Organism plant = residents.get(randomIndex);
             plant.setDead(true);
             return plant;
         } else return new NonOrganism();
     }
-    private Class<? extends Plant> getRandomPlantClass() {
+    private Class<? extends Plant> getRandomPlantClass()
+    {
         return plantsClasses.get(random.nextInt(plantsClasses.size()));
     }
 }
