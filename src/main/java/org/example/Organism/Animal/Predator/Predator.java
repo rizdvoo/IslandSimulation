@@ -2,6 +2,7 @@ package org.example.Organism.Animal.Predator;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.example.Map.Cell;
 import org.example.Organism.Animal.Animal;
 import org.example.Organism.Animal.Herbivorous.Herbivorous;
 import org.example.Organism.NonOrganism;
@@ -44,15 +45,18 @@ public abstract class Predator extends Animal
     }
     private Organism eatVictim(Class<? extends Herbivorous> victimClass)
     {
-        List<Organism> residents = this.getCell().getResidents().get(victimClass);
-        if (!residents.isEmpty())
-        {
-            int randomIndex = random.nextInt(residents.size());
-            Organism victim = residents.get(randomIndex);
-            victim.setDead(true);
-            return victim;
+        Cell cell = this.getCell();
+        if (cell != null) {
+            List<Organism> residents = cell.getResidents().get(victimClass);
+            if (!residents.isEmpty())
+            {
+                int randomIndex = random.nextInt(residents.size());
+                Organism victim = residents.get(randomIndex);
+                victim.setDead(true);
+                return victim;
+            }
         }
-        else return new NonOrganism();
+        return new NonOrganism();
     }
     private Class<? extends Herbivorous> getRandomVictimClass()
     {

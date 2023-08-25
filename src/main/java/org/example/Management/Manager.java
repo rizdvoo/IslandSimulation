@@ -17,7 +17,11 @@ public class Manager
     public void start()
     {
         Field field = fieldFactory.create();
-        Engine engine = new Engine(field, 1);
-        engine.run();
+        Engine engine = new Engine(field, 10);
+        try {
+            engine.run();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

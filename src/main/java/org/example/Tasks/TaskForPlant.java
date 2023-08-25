@@ -32,7 +32,7 @@ public class TaskForPlant implements Runnable
                         {
                             if (organism instanceof Plant plant)
                             {
-                               plant.tryReproduce();
+                               plant.play();
                             }
                         }
                     }

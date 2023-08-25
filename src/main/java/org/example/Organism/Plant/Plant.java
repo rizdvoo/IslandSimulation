@@ -1,6 +1,7 @@
 package org.example.Organism.Plant;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.example.Map.Cell;
 import org.example.Organism.Organism;
 
 import java.util.List;
@@ -18,9 +19,20 @@ public abstract class Plant extends Organism
     @Builder.Default
     private final long serialNumber = amount++;
 
-    public void tryReproduce() {
-            Organism organism = this.reproduce();
-            List<Organism> thisOrganismList = this.getCell().getResidents().get(this.getClass());
+    @Override
+    public void play()
+    {
+        this.tryReproduce();
+    }
+
+    public void tryReproduce()
+    {
+        Organism organism = this.reproduce();
+        Cell cell = this.getCell();
+        if (cell != null) {
+            List<Organism> thisOrganismList = cell.getResidents().get(this.getClass());
             thisOrganismList.add(organism);
+        }
+
     }
 }

@@ -24,21 +24,23 @@ public class Engine
         this.field = field;
         this.simulationSteps = simulationSteps;
     }
-    public void run()
-    {
-        for (int step = 0; step < simulationSteps; step++)
-        {
-            performPlantActions();
+    public void run() throws InterruptedException {
+        for (int step = 0; step < simulationSteps; step++) {
+            Thread thread = performPlantActions();
             performAnimalActions();
+            thread.join();
             updateFieldState();
-            printSimulationStatistics(step);
+            Inteface.printSimulationStatistics(step, field);
         }
     }
-    private void performPlantActions()
+
+
+    private Thread performPlantActions()
     {
         TaskForPlant taskForPlant = new TaskForPlant(field);
         Thread thread = new Thread(taskForPlant);
         thread.start();
+        return thread;
     }
     private void performAnimalActions()
     {
@@ -93,46 +95,5 @@ public class Engine
                 }
             }
         }
-    }
-
-    private void printSimulationStatistics(int step)
-    {
-        System.out.println("Simulation step: " + step);
-        int totalOrganisms = 0;
-        int totalPlants = 0;
-        int totalHerbivores = 0;
-        int totalPredators = 0;
-
-        for (Cell[] cellRow : field.getCells())
-        {
-            for (Cell cell : cellRow)
-            {
-                for (List<Organism> organisms : cell.getResidents().values())
-                {
-                    for (Organism organism : organisms)
-                    {
-                        totalOrganisms++;
-                        if (organism instanceof Plant)
-                        {
-                            totalPlants++;
-                        }
-                        else if (organism instanceof Herbivorous)
-                        {
-                            totalHerbivores++;
-                        }
-                        else if (organism instanceof Predator)
-                        {
-                            totalPredators++;
-                        }
-                    }
-                }
-            }
-        }
-
-        System.out.println("Total organisms: " + totalOrganisms);
-        System.out.println("Total plants: " + totalPlants);
-        System.out.println("Total herbivores: " + totalHerbivores);
-        System.out.println("Total predators: " + totalPredators);
-        System.out.println("----------------------------------------------------------------");
     }
 }

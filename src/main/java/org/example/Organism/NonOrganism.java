@@ -5,4 +5,7 @@ public class NonOrganism extends Organism {
     public Organism reproduce() {
         return null;
     }
+
+    @Override
+    public void play() {}
 }

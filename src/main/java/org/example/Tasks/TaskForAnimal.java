@@ -31,23 +31,12 @@ public class TaskForAnimal
                         {
                             if (organism instanceof Animal animal)
                             {
-                                animal.findFood();
-                                animal.increaseHunger(randomDamage());
-                                animal.tryReproduce();
-                                for (int i = 0; i < animal.getSpeed(); i++)
-                                {
-                                    animal.move();
-                                }
+                                animal.play();
                             }
                         }
                     }
                 }
             }
         }
-    }
-
-
-    private int randomDamage() {
-        return random.nextInt(10,15);
     }
 }

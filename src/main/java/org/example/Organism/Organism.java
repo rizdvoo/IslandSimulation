@@ -21,4 +21,6 @@ public abstract class Organism implements Reproducible
     private double maxWeight;
     private int maxAmountPerCell;
     private boolean isDead = false;
+
+    public abstract void play();
 }
