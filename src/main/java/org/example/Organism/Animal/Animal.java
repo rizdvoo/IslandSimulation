@@ -89,7 +89,7 @@ public abstract class Animal extends Organism implements Movable
     protected int randomDamage()
     {
         Random random = new Random();
-        return random.nextInt(10,100);
+        return random.nextInt(10,40);
     }
     protected boolean isHunger() { return this.getHealth() < getMaxHealth(); }
     protected Integer getChanceEat(Class<? extends Organism> organism) { return this.getTargetMatrix().get(organism.getSimpleName());}
