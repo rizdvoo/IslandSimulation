@@ -1,0 +1,21 @@
+{
+  "maxWeight": 15,
+  "maxSpeed": 1,
+  "maxHealth": 35,
+  "maxAmountPerCell": 30,
+
+  "weight": 15,
+  "speed": 1,
+  "health": 17,
+
+  "targetMatrix":
+  {
+    "Rabbit": 70,
+    "Grass": 0,
+    "Wolf": 0,
+    "Bear": 0,
+    "Boa": 0,
+    "Fox": 0,
+    "Eagle": 0
+  }
+}

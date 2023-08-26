@@ -12,6 +12,10 @@
   {
     "Rabbit": 60,
     "Grass": 0,
-    "Bear": 0
+    "Bear": 0,
+    "Boa": 0,
+    "Fox": 0,
+    "Wolf": 0,
+    "Eagle": 0
   }
 }

@@ -41,6 +41,6 @@ public abstract class Plant extends Organism
     protected int randomDamage()
     {
         Random random = new Random();
-        return random.nextInt(2,5);
+        return random.nextInt(1,4);
     }
 }
