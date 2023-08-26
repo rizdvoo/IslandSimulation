@@ -5,6 +5,7 @@ import org.example.Map.Field;
 import org.example.Organism.Animal.Animal;
 import org.example.Organism.Organism;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -27,7 +28,7 @@ public class TaskForAnimal
                 {
                     for (List<Organism> organisms : cell.getResidents().values())
                     {
-                        for (Organism organism : organisms)
+                        for (Organism organism : new ArrayList<>(organisms))
                         {
                             if (organism instanceof Animal animal)
                             {

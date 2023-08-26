@@ -23,6 +23,7 @@ public class Bear extends Predator
                 .weight(this.getWeight())
                 .health(this.getHealth())
                 .speed(this.getSpeed())
+                .cell(this.getCell())
                 .maxAmountPerCell(this.getMaxAmountPerCell())
                 .targetMatrix(this.getTargetMatrix())
                 .build();

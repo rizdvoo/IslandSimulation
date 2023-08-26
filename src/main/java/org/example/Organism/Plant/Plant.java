@@ -6,6 +6,7 @@ import org.example.Organism.Organism;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Getter
 @Setter
@@ -22,17 +23,24 @@ public abstract class Plant extends Organism
     @Override
     public void play()
     {
+        increaseHunger();
         this.tryReproduce();
     }
 
     public void tryReproduce()
     {
-        Organism organism = this.reproduce();
-        Cell cell = this.getCell();
-        if (cell != null) {
+        if (this.getCell().getSerialNumber() % 2 == 0) {
+            Organism organism = this.reproduce();
+            Cell cell = this.getCell();
             List<Organism> thisOrganismList = cell.getResidents().get(this.getClass());
             thisOrganismList.add(organism);
         }
+    }
+    public void increaseHunger() { this.setHealth(this.getHealth() - randomDamage()); }
 
+    protected int randomDamage()
+    {
+        Random random = new Random();
+        return random.nextInt(2,5);
     }
 }

@@ -18,6 +18,8 @@ public class Grass extends Plant
         return Grass.builder()
                 .weight(this.getWeight())
                 .maxAmountPerCell(this.getMaxAmountPerCell())
+                .cell(this.getCell())
+                .health(this.getHealth())
                 .maxWeight(this.getMaxWeight())
                 .build();
     }

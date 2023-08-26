@@ -3,6 +3,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.example.Absraction.Movable;
 import org.example.Map.Cell;
+import org.example.Organism.Animal.Herbivorous.Herbivorous;
 import org.example.Organism.Organism;
 import org.reflections.Reflections;
 
@@ -21,9 +22,8 @@ public abstract class Animal extends Organism implements Movable
     private final long serialNumber = amount++;
 
     private int maxSpeed;
-    private double maxHealth;
     private int speed;
-    private double health;
+
 
 
     private Map<String, Integer> targetMatrix = new HashMap<>();
@@ -33,8 +33,8 @@ public abstract class Animal extends Organism implements Movable
     public void play()
     {
         this.findFood();
-        this.increaseHunger(randomDamage());
         this.tryReproduce();
+        this.increaseHunger();
         for (int i = 0; i < this.getSpeed(); i++)
         {
             this.move();
@@ -44,78 +44,54 @@ public abstract class Animal extends Organism implements Movable
     public abstract void findFood();
     public void tryReproduce()
     {
-        if (thisAnimalSizeList() >= 2)
+        if (this.getCell().getSerialNumber() % 5 == 0)
         {
             Organism organism = this.reproduce();
             Cell cell = this.getCell();
-            if (cell != null) {
-                List<Organism> thisOrganismList = cell.getResidents().get(this.getClass());
-                thisOrganismList.add(organism);
-            }
+            List<Organism> thisOrganismList = cell.getResidents().get(this.getClass());
+            thisOrganismList.add(organism);
+
         }
     }
     public void move()
     {
         Cell currentCell = this.getCell();
-        if (currentCell != null) {
-            List<Cell> neighborCells = new ArrayList<>(currentCell.getNeighboursCells());
+        List<Cell> neighborCells = currentCell.getNeighboursCells();
 
-            if (!neighborCells.isEmpty())
+        if (!neighborCells.isEmpty())
+        {
+            Cell nextCell = neighborCells.stream().findAny().orElse(null);
+
+            Map<Class<? extends Organism>, List<Organism>> currentCellResidents = currentCell.getResidents();
+            Map<Class<? extends Organism>, List<Organism>> nextCellResidents = nextCell.getResidents();
+
+            List<Organism> currentOrganismList = currentCellResidents.get(this.getClass());
+            List<Organism> nextCellOrganismList = nextCellResidents.get(this.getClass());
+
+            if (currentOrganismList != null && currentOrganismList.contains(this))
             {
-                Cell nextCell = neighborCells.stream().findAny().orElse(null);
-
-                Map<Class<? extends Organism>, List<Organism>> currentCellResidentsCopy = new HashMap<>(currentCell.getResidents());
-                Map<Class<? extends Organism>, List<Organism>> nextCellResidentsCopy = new HashMap<>(nextCell.getResidents());
-
-                List<Organism> thisOrganismList = currentCellResidentsCopy.get(this.getClass());
-
-                if (thisOrganismList != null && thisOrganismList.contains(this))
+                synchronized (currentCell)
                 {
-                    thisOrganismList = new ArrayList<>(thisOrganismList);
-                    thisOrganismList.remove(this);
-
-                    List<Organism> nextCellOrganismList = nextCellResidentsCopy.computeIfAbsent(this.getClass(), k -> new ArrayList<>());
-                    nextCellOrganismList = new ArrayList<>(nextCellOrganismList);
-                    nextCellOrganismList.add(this);
-
-                    synchronized (currentCell)
-                    {
-                        currentCellResidentsCopy.put(this.getClass(), thisOrganismList);
-                        currentCell.setResidents(currentCellResidentsCopy);
-                    }
-
-                    synchronized (nextCell)
-                    {
-                        nextCellResidentsCopy.put(this.getClass(), nextCellOrganismList);
-                        nextCell.setResidents(nextCellResidentsCopy);
-                    }
-
-                    this.setCell(nextCell);
+                    currentOrganismList.remove(this);
                 }
+
+                synchronized (nextCell)
+                {
+                    nextCellOrganismList.add(this);
+                }
+
+                this.setCell(nextCell);
             }
         }
     }
 
-    private int randomDamage()
+    public void increaseHunger() { this.setHealth(this.getHealth() - randomDamage()); }
+    protected int randomDamage()
     {
         Random random = new Random();
-        return random.nextInt(30,60);
+        return random.nextInt(10,100);
     }
-    public void increaseHunger(int damage) { this.setHealth(this.getHealth() - damage); }
-    public boolean isHealthNull() {
-        return this.getHealth() <= 0;
-    }
-    private int thisAnimalSizeList() {
-        Cell cell = this.getCell();
-        if (cell != null) {
-            return cell.getResidents().get(this.getClass()).size();
-        } else return 0;
-    }
-    protected boolean isHunger() {
-        return this.getHealth() <= this.getMaxHealth() - this.getHealth();
-    }
+    protected boolean isHunger() { return this.getHealth() < getMaxHealth(); }
     protected Integer getChanceEat(Class<? extends Organism> organism) { return this.getTargetMatrix().get(organism.getSimpleName());}
-    protected void restoreHealth(double weight) {
-        this.setHealth(this.getHealth() + weight);
-    }
+    protected void restoreHealth(double weight) { this.setHealth(this.getHealth() + weight);}
 }

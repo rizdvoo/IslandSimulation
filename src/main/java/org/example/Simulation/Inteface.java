@@ -11,12 +11,14 @@ import java.util.List;
 
 public class Inteface
 {
-    private static int totalOrganisms = 0;
-    private static int totalPlants = 0;
-    private static int totalHerbivores = 0;
-    private static int totalPredators = 0;
+
     public static void printSimulationStatistics(int step, Field field)
     {
+        int totalOrganisms = 0;
+        int totalPlants = 0;
+        int totalHerbivores = 0;
+        int totalPredators = 0;
+
         System.out.println("Simulation step: " + step);
 
         for (Cell[] cellRow : field.getCells())
@@ -45,11 +47,6 @@ public class Inteface
             }
         }
 
-        print();
-    }
-
-    private static void print()
-    {
         System.out.println("Total organisms: " + totalOrganisms);
         System.out.println("Total plants: " + totalPlants);
         System.out.println("Total herbivores: " + totalHerbivores);

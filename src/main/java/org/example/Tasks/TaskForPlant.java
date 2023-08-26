@@ -6,6 +6,7 @@ import org.example.Organism.Organism;
 import org.example.Organism.Plant.Plant;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,11 +29,11 @@ public class TaskForPlant implements Runnable
                 {
                     for (List<Organism> organisms : cell.getResidents().values())
                     {
-                        for (Organism organism : organisms)
+                        for (Organism organism : new ArrayList<>(organisms))
                         {
                             if (organism instanceof Plant plant)
                             {
-                               plant.play();
+                                plant.play();
                             }
                         }
                     }

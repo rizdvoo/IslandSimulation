@@ -26,39 +26,38 @@ import java.util.logging.Logger;
 public abstract class Predator extends Animal
 {
     private final Random random = new Random();
-    private static List<Class<? extends Herbivorous>> victimClasses = new ArrayList<>(reflections.getSubTypesOf(Herbivorous.class));
+    private static List<Class<? extends Animal>> victimClasses = new ArrayList<>(reflections.getSubTypesOf(Herbivorous.class));
 
     @Override
     public void findFood()
     {
-        Class<? extends Herbivorous> victimClass = getRandomVictimClass();
+        Class<? extends Animal> victimClass = getRandomVictimClass();
         Integer chance = getChanceEat(victimClass);
         int randomNumber = random.nextInt(chance) + 1;
 
         if (randomNumber <= chance)
         {
-            while (isHunger() && eatVictim(victimClass) instanceof Herbivorous victim)
+            Organism organism = eatVictim(victimClass);
+            while (isHunger() && organism instanceof Animal victim)
             {
                 restoreHealth(victim.getWeight());
             }
         }
     }
-    private Organism eatVictim(Class<? extends Herbivorous> victimClass)
+    private Organism eatVictim(Class<? extends Animal> victimClass)
     {
-        Cell cell = this.getCell();
-        if (cell != null) {
-            List<Organism> residents = cell.getResidents().get(victimClass);
-            if (!residents.isEmpty())
-            {
-                int randomIndex = random.nextInt(residents.size());
-                Organism victim = residents.get(randomIndex);
-                victim.setDead(true);
-                return victim;
-            }
+        List<Organism> residents = this.getCell().getResidents().get(victimClass);
+        if (!residents.isEmpty())
+        {
+            int randomIndex = random.nextInt(residents.size());
+            Organism victim = residents.get(randomIndex);
+            residents.remove(randomIndex);
+            victim.setDead(true);
+            return victim;
         }
         return new NonOrganism();
     }
-    private Class<? extends Herbivorous> getRandomVictimClass()
+    private Class<? extends Animal> getRandomVictimClass()
     {
         return victimClasses.get(random.nextInt(victimClasses.size()));
     }

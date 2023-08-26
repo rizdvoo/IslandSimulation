@@ -41,7 +41,8 @@ public abstract class Herbivorous extends Animal
 
         if (randomNumber <= chance)
         {
-            while (isHunger() && eatPlant(plantClass) instanceof Plant plant)
+            Organism organism = eatPlant(plantClass);
+            while (isHunger() && organism instanceof Plant plant)
             {
                 restoreHealth(plant.getWeight());
             }
@@ -49,16 +50,14 @@ public abstract class Herbivorous extends Animal
     }
     private Organism eatPlant(Class<? extends Plant> plantClass)
     {
-        Cell cell = this.getCell();
-        if (cell != null) {
-            List<Organism> residents = cell.getResidents().get(plantClass);
-            if (!residents.isEmpty())
-            {
-                int randomIndex = random.nextInt(residents.size());
-                Organism plant = residents.get(randomIndex);
-                plant.setDead(true);
-                return plant;
-            }
+        List<Organism> residents = this.getCell().getResidents().get(plantClass);
+        if (!residents.isEmpty())
+        {
+            int randomIndex = random.nextInt(residents.size());
+            Organism plant = residents.get(randomIndex);
+            residents.remove(randomIndex);
+            plant.setDead(true);
+            return plant;
         }
         return new NonOrganism();
     }

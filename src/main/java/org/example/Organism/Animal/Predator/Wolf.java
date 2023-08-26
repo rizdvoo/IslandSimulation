@@ -1,8 +1,9 @@
-package org.example.Organism.Animal.Herbivorous;
+package org.example.Organism.Animal.Predator;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.example.Absraction.Config;
+import org.example.Organism.Organism;
 
 @Getter
 @Setter
@@ -10,13 +11,11 @@ import org.example.Absraction.Config;
 @SuperBuilder
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@Config(filePath = "Animal/Herbivorous/Rabbit.json")
-public class Rabbit extends Herbivorous
-{
+@Config(filePath = "Animal/Predator/Wolf.json")
+public class Wolf extends Predator {
     @Override
-    public Rabbit reproduce()
-    {
-        return Rabbit.builder()
+    public Organism reproduce() {
+        return Wolf.builder()
                 .maxWeight(this.getMaxWeight())
                 .maxHealth(this.getMaxHealth())
                 .maxSpeed(this.getMaxSpeed())

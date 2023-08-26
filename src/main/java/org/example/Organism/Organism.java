@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 import org.example.Absraction.Reproducible;
 import org.example.Map.Cell;
 
+import java.util.Random;
 import java.util.function.Supplier;
 
 @Getter
@@ -19,8 +20,15 @@ public abstract class Organism implements Reproducible
     private Cell cell;
     private double weight;
     private double maxWeight;
+    private double health;
+    private double maxHealth;
     private int maxAmountPerCell;
     private boolean isDead = false;
 
     public abstract void play();
+
+    public boolean isHealthNull() {
+        return this.getHealth() <= 0;
+    }
+
 }

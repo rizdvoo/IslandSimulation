@@ -26,11 +26,11 @@ public class Engine
     }
     public void run() throws InterruptedException {
         for (int step = 0; step < simulationSteps; step++) {
-            Thread thread = performPlantActions();
-            performAnimalActions();
-            thread.join();
-            updateFieldState();
-            Inteface.printSimulationStatistics(step, field);
+           Thread thread = performPlantActions();
+           performAnimalActions();
+           thread.join();
+           updateFieldState();
+           Inteface.printSimulationStatistics(step, field);
         }
     }
 
@@ -68,32 +68,10 @@ public class Engine
     }
     private void checkHealth(List<Organism> organisms)
     {
-        Iterator<Organism> iterator = organisms.iterator();
-        while (iterator.hasNext())
-        {
-            Organism organism = iterator.next();
-            if (organism instanceof Animal animal)
-            {
-                if (animal.isHealthNull())
-                {
-                    iterator.remove();
-                }
-            }
-        }
+       organisms.removeIf(Organism::isHealthNull);
     }
     private void checkIsDead(List<Organism> organisms)
     {
-        Iterator<Organism> iterator = organisms.iterator();
-        while (iterator.hasNext())
-        {
-            Organism organism = iterator.next();
-            if (organism instanceof Animal animal)
-            {
-                if (animal.isDead())
-                {
-                    iterator.remove();
-                }
-            }
-        }
+       organisms.removeIf(Organism::isDead);
     }
 }
