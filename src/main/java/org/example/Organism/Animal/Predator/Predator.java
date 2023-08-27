@@ -32,7 +32,7 @@ public abstract class Predator extends Animal
     public void findFood()
     {
         Class<? extends Animal> victimClass = getRandomVictimClass();
-        Integer chance = getChanceEat(victimClass);
+        int chance = getChanceEat(victimClass);
         int randomNumber = random.nextInt(chance) + 1;
 
         if (randomNumber <= chance)
@@ -40,7 +40,10 @@ public abstract class Predator extends Animal
             Organism organism = eatVictim(victimClass);
             while (isHunger() && organism instanceof Animal victim)
             {
-                restoreHealth(victim.getWeight());
+                if (this.getHealth() < getMaxHealth()) {
+                    restoreHealth(victim.getWeight());
+                }
+
             }
         }
     }

@@ -2,7 +2,7 @@
   "maxWeight": 50,
   "maxSpeed": 3,
   "maxHealth": 50,
-  "maxAmountPerCell": 20,
+  "maxAmountPerCell": 10,
 
   "weight": 500,
   "speed": 2,
@@ -11,11 +11,15 @@
   "targetMatrix":
   {
     "Rabbit": 60,
-    "Grass": 0,
-    "Bear": 0,
-    "Boa": 0,
-    "Fox": 0,
-    "Wolf": 0,
-    "Eagle": 0
+    "Grass": 1,
+    "Bear": 1,
+    "Boa": 1,
+    "Fox": 1,
+    "Eagle": 1,
+    "Horse": 10,
+    "Deer": 15,
+    "Mouse": 100,
+    "Goat": 80,
+    "Sheep": 80
   }
 }

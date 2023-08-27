@@ -14,7 +14,7 @@ import org.example.Organism.Organism;
 @Config(filePath = "Animal/Predator/Boa.json")
 public class Boa extends Predator {
     @Override
-    public Organism reproduce() {
+    public Boa reproduce() {
         return Boa.builder()
                 .maxWeight(this.getMaxWeight())
                 .maxHealth(this.getMaxHealth())

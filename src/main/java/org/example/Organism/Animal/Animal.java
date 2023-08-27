@@ -44,7 +44,7 @@ public abstract class Animal extends Organism implements Movable
     public abstract void findFood();
     public void tryReproduce()
     {
-        if (this.getCell().getSerialNumber() % 5 == 0)
+        if (this.getCell().getSerialNumber() % 10 == 0)
         {
             Organism organism = this.reproduce();
             Cell cell = this.getCell();

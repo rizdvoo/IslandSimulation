@@ -44,7 +44,9 @@ public abstract class Herbivorous extends Animal
             Organism organism = eatPlant(plantClass);
             while (isHunger() && organism instanceof Plant plant)
             {
-                restoreHealth(plant.getWeight());
+                if (this.getHealth() < getMaxHealth()) {
+                    restoreHealth(plant.getWeight());
+                }
             }
         }
     }
